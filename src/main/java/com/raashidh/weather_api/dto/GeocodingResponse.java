@@ -14,7 +14,7 @@ public class GeocodingResponse {
     public static class Location {
         private String name;
         private double latitue;
-        private double longtitude;
+        private double longitude;
 
         public String getName() {
             return name;
@@ -24,8 +24,8 @@ public class GeocodingResponse {
             return latitue;
         }
 
-        public double getLongtitude() {
-            return longtitude;
+        public double getLontitue() {
+            return longitude;
         }
     }
 }
