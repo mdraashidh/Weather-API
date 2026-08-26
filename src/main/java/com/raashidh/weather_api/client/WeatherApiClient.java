@@ -24,7 +24,7 @@ public class WeatherApiClient {
                 .body(GeocodingResponse.class);
     }
 
-    public WeatherApiResponse getWeather(String latitude, String longitude) {
+    public WeatherApiResponse getWeather(double latitude, double longitude) {
 
         return restClient.get()
                 .uri("https://api.open-meteo.com/v1/forecast"
@@ -35,7 +35,5 @@ public class WeatherApiClient {
                 .retrieve()
                 .body(WeatherApiResponse.class);
     }
-
-
 
 }

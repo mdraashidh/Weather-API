@@ -20,11 +20,11 @@ public class GeocodingResponse {
             return name;
         }
 
-        public double getLatitue() {
+        public double getLatitude() {
             return latitue;
         }
 
-        public double getLontitue() {
+        public double getLongitude() {
             return longitude;
         }
     }

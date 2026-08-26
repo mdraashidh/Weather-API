@@ -2,7 +2,7 @@ package com.raashidh.weather_api.dto;
 
 public class WeatherApiResponse {
 
-    private static class Current {
+    public static class Current {
 
         /* the variables are named like this because of weather_api_response
            will send response in this format to reduce the variable name mapping */
