@@ -5,6 +5,7 @@ import com.raashidh.weather_api.client.WeatherApiClient;
 import com.raashidh.weather_api.dto.GeocodingResponse;
 import com.raashidh.weather_api.dto.WeatherApiResponse;
 import com.raashidh.weather_api.dto.WeatherResponse;
+import com.raashidh.weather_api.exception.CityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,8 +23,15 @@ public class WeatherService {
         GeocodingResponse geocodingResponse =  weatherApiClient.getLocation(String.valueOf(city));
 
         //retriving the location details which are on the locations list
+        if(geocodingResponse == null
+                || geocodingResponse.getResults() == null
+                ||  geocodingResponse.getResults().isEmpty()){
+            throw new CityNotFoundException(city);
+        }
         GeocodingResponse.Location location = geocodingResponse
                 .getResults().get(0);
+
+
 
         //fetching weather using coordinates
         WeatherApiResponse weatherApiResponse =
