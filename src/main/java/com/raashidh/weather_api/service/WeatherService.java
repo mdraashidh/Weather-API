@@ -7,6 +7,7 @@ import com.raashidh.weather_api.dto.WeatherApiResponse;
 import com.raashidh.weather_api.dto.WeatherResponse;
 import com.raashidh.weather_api.exception.CityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 
 @Service
 public class WeatherService {
@@ -17,8 +18,11 @@ public class WeatherService {
         this.weatherApiClient = weatherApiClient;
     }
 
+    @Cacheable(value = "weather", key = "#city.trim().toLowerCase")
     public WeatherResponse getWeatherOf(String city) {
 
+        city = city.trim();
+//        System.out.println("Calling external weather API for: " + city);
         //converting city name into coordinates
         GeocodingResponse geocodingResponse =  weatherApiClient.getLocation(String.valueOf(city));
 
