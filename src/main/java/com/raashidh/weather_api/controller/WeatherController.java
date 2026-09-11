@@ -6,6 +6,7 @@ import com.raashidh.weather_api.service.WeatherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.NotBlank;
 
 @RestController
 public class WeatherController {
@@ -19,7 +20,11 @@ public class WeatherController {
 
 
     @GetMapping("/api/weather")
-    public WeatherResponse  getCurrentWeather(@RequestParam String city) {
+    public WeatherResponse  getCurrentWeather(
+            @RequestParam
+            @NotBlank(message = "City must not be blank")
+            String city
+    ) {
         return weatherService.getWeatherOf(city);
     }
 }

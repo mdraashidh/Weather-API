@@ -5,14 +5,21 @@ public class WeatherResponse {
 
     private String city;
     private double temperature;
+    private double feelsLike;
     private double windSpeed;
-    private int weatherCode;
+    private double humidity;
+    private String condition;
 
-    public WeatherResponse(String city, double temperature, double windSpeed, int weatherCode) {
+    public WeatherResponse(String city, double temperature,
+                           double feelsLike, double windSpeed,
+                           double humidity, String condition) {
         this.city = city;
         this.temperature = temperature;
+        this.feelsLike = feelsLike;
         this.windSpeed = windSpeed;
-        this.weatherCode = weatherCode;
+        this.humidity = humidity;
+        this.condition = condition;
+
     }
 
     public String getCity() {
@@ -23,12 +30,20 @@ public class WeatherResponse {
         return temperature;
     }
 
+    public double getFeelsLike() {
+        return feelsLike;
+    }
+
     public double getWindSpeed() {
         return windSpeed;
     }
 
-    public int getWeatherCode() {
-        return weatherCode;
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public String getCondition(){
+        return condition;
     }
 
 
