@@ -2,6 +2,7 @@ package com.raashidh.weather_api.client;
 
 
 import com.raashidh.weather_api.config.WeatherProperties;
+import com.raashidh.weather_api.dto.ForecastApiResponse;
 import com.raashidh.weather_api.dto.GeocodingResponse;
 import com.raashidh.weather_api.dto.WeatherApiResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,7 @@ public class WeatherApiClient {
                 .body(WeatherApiResponse.class);
     }
 
-    public WeatherApiResponse getForecast(double latitude, double longitude) {
+    public ForecastApiResponse getForecast(double latitude, double longitude) {
 
         return restClient.get()
                 .uri(weatherProperties.getForecastUrl()
@@ -57,7 +58,7 @@ public class WeatherApiClient {
                                 + "&timezone=auto",
                         latitude, longitude)
                 .retrieve()
-                .body(WeatherApiResponse.class);
+                .body(ForecastApiResponse.class);
     }
 
 }

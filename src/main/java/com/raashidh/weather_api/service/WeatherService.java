@@ -2,13 +2,14 @@
 package com.raashidh.weather_api.service;
 
 import com.raashidh.weather_api.client.WeatherApiClient;
-import com.raashidh.weather_api.dto.GeocodingResponse;
-import com.raashidh.weather_api.dto.WeatherApiResponse;
-import com.raashidh.weather_api.dto.WeatherResponse;
+import com.raashidh.weather_api.dto.*;
 import com.raashidh.weather_api.exception.CityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.cache.annotation.Cacheable;
 import com.raashidh.weather_api.util.WeatherCodeMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WeatherService {
@@ -36,8 +37,6 @@ public class WeatherService {
         GeocodingResponse.Location location = geocodingResponse
                 .getResults().get(0);
 
-
-
         //fetching weather using coordinates
         WeatherApiResponse weatherApiResponse =
                 weatherApiClient.getWeather(
@@ -58,6 +57,47 @@ public class WeatherService {
                 current.getRelative_humidity_2m(),
                 condition
         );
+    }
+
+
+    public ForecastWeatherResponse getForecasts(String city) {
+
+        GeocodingResponse geocodingResponse =
+                weatherApiClient.getLocation(city);
+
+        if (geocodingResponse == null
+                || geocodingResponse.getResults() == null
+                || geocodingResponse.getResults().isEmpty()
+        ) {
+            throw new CityNotFoundException(city);
+        }
+
+        GeocodingResponse.Location location = geocodingResponse.getResults().get(0);
+
+        ForecastApiResponse forecastApiResponse =
+                weatherApiClient.getForecast(location.getLatitude(), location.getLongitude());
+
+        ForecastApiResponse.Daily daily = forecastApiResponse.getDaily();
+
+        List<ForecastResponse> forecastList = new ArrayList<>();
+
+        for (int i = 0; i < daily.getTime().size(); i++) {
+
+            String condition =
+                    WeatherCodeMapper.getCondition(
+                            daily.getWeather_code().get(i)
+                    );
+
+            forecastList.add(
+                    new ForecastResponse(
+                            daily.getTime().get(i),
+                            daily.getTemperature_2m_max().get(i),
+                            daily.getTemperature_2m_min().get(i),
+                            condition
+                    )
+            );
+        }
+        return new ForecastWeatherResponse(location.getName(), forecastList);
     }
 
 }
